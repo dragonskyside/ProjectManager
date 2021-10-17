@@ -8,5 +8,7 @@ class Task < ApplicationRecord
     ['In progress', 'in-progress'],
     ['Complete', 'complete']
 
-  ]
+  ] 
+
+
 end
