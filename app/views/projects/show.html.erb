@@ -9,8 +9,6 @@
                         confirm: 'Are you sure?'} %>
       </div>
     </h2>
-
-
     <div class="mb-4">
       <h6>Add task</h6>
       <%= form_for([@task.project, @task]) do |f| %>
@@ -24,8 +22,6 @@
             </ul>
           </div>
         <% end %>
-
-
         <%= f.hidden_field :status, value: 'not-started' %>
         <div class="input-group">
           <%= f.text_field :name, class: 'form-control', placeholder: 'Enter task name...' %>
@@ -35,27 +31,39 @@
         </div>
       <% end %>
     </div>
-
-
-        <h4>Tasks</h4>
-        <ul id='tasks-list'>
-          <% @project.tasks.each do |task| %>
-            <% if task.persisted? %>
-              <li>
-                <div class="card mb-3">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                    <div class='task-status'>
+    <h4>Tasks</h4>
+    <ul id='tasks-list'>
+      <% @project.tasks.each do |task| %>
+        <% if task.persisted? %>
+          <li>
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class='task-status'>
                     <i class="fas fa-grip-vertical grip text-secondary mr-1"></i>
-                      <span class="badge badge-<%= task.color_class %> mb-3"><%= task.status %></span>
-                      </div>
-                      <div>
-                        <%= link_to 'Edit', edit_project_task_path(task.project, task), class:'btn btn-secondary btn-sm' %>
-                        <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' },
-                        class: 'btn btn-dark btn-sm' %>
+                    <span class="badge badge-<%= task.color_class %> mb-3"><%= task.status %></span>
+                  </div>
+                  <div>
+                    <div class="dropdown float-left">
+                      <button class="btn btn-sm mr-1 btn-outline-<%= task.color_class %> 
+                      dropdown-toggle" type="button" id="dropdownMenuButton" 
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <%= task.readable_status %>
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <% Task::STATUS_OPTIONS.each do |status|%>
+                          <a class="dropdown-item" href="#"><%= status[0] %></a>
+                        <% end %>
                       </div>
                     </div>
-                  <h5 class='card-title mb-2'><span><%= task.name %></span></h5>
+                    <%= link_to 'Edit Task', edit_project_task_path(task.project, task), class:'btn btn-secondary btn-sm' %>
+                      <%= link_to [task.project, task], method: :delete, data: { confirm: 'Are you sure?' },
+                        class: 'btn btn-dark btn-sm' do %>
+                      <i class='fas fa-trash'></i>
+                    <% end %>
+                  </div>
+                </div>
+                <h5 class='card-title mb-2'><span><%= task.name %></span></h5>
                 <p><%= task.description %></p>
               </div>
             </div>
