@@ -10,7 +10,7 @@ class Task < ApplicationRecord
 
   ] 
 
-  def badge_color
+  def color_class
     case status
     when 'not-started'
       'secondary'
