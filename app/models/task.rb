@@ -24,7 +24,7 @@ class Task < ApplicationRecord
   def readable_status
     case status
     when 'not-started'
-      'Notstarted'
+      'Not started'
     when 'in-progress'
       'In progress'
     when 'complete'
